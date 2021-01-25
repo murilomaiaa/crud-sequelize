@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "allowJs": true,
     "module": "commonjs",
     "outDir": "./dist",
     "rootDir": "./src",
@@ -8,8 +9,11 @@
     "strictPropertyInitialization": false,
     "baseUrl": "./src",
     "paths": {
-      "@/*": [
-        "/*"
+      "@modules/*": [
+        "modules/*"
+      ],
+      "@shared/*": [
+        "shared/*"
       ]
     },
     "esModuleInterop": true,
