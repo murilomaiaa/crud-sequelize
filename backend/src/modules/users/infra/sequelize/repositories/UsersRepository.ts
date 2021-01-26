@@ -1,11 +1,15 @@
 import CreateUserDTO from '@modules/users/dtos/CreateUserDTO';
 import RepositoryFilterUserDTO from '@modules/users/dtos/RepositoryFilterUserDTO';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+import { parseISO } from 'date-fns';
 import User from '../entities/User';
 
 export default class UsersRepository implements IUsersRepository {
-  async create(data: CreateUserDTO): Promise<User> {
-    const user = await User.create(data);
+  async create({ birthday, ...rest }: CreateUserDTO): Promise<User> {
+    const user = await User.create({
+      ...rest,
+      birthday: parseISO(birthday),
+    });
     return user;
   }
 
@@ -40,5 +44,9 @@ export default class UsersRepository implements IUsersRepository {
     return User.findAll({
       where: data,
     });
+  }
+
+  async save(user: User): Promise<void> {
+    await user.save();
   }
 }

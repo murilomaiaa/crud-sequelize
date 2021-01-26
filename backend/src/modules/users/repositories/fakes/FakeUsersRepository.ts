@@ -52,6 +52,12 @@ class UsersRepository implements IUsersRepository {
 
     return this.users.filter(filter);
   }
+
+  public async save(user: User): Promise<void> {
+    const findIndex = this.users.findIndex(findUser => findUser.id === user.id);
+
+    this.users[findIndex] = user;
+  }
 }
 
 export default UsersRepository;
