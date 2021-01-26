@@ -1,6 +1,7 @@
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import CreateUserDTO from '@modules/users/dtos/CreateUserDTO';
 import User from '@modules/users/infra/sequelize/entities/User';
+import RepositoryFilterUserDTO from '@modules/users/dtos/RepositoryFilterUserDTO';
 
 class UsersRepository implements IUsersRepository {
   private users: User[] = [];
@@ -23,12 +24,33 @@ class UsersRepository implements IUsersRepository {
     return user;
   }
 
-  public async save(user: User): Promise<User> {
-    const findIndex = this.users.findIndex(findUser => findUser.id === user.id);
+  public async findAll(): Promise<User[]> {
+    return this.users;
+  }
 
-    this.users[findIndex] = user;
+  public async findById(id: number): Promise<User | undefined> {
+    const findUser = this.users.find(user => user.id === id);
 
-    return user;
+    return findUser;
+  }
+
+  public async filter({
+    birthday,
+    city,
+    email,
+    name,
+    state,
+  }: RepositoryFilterUserDTO): Promise<User[]> {
+    const filter = (user: User) => {
+      if (birthday && user.birthday !== birthday) return false;
+      if (city && user.city !== city) return false;
+      if (email && user.email !== email) return false;
+      if (name && user.name !== name) return false;
+      if (state && user.state !== state) return false;
+      return true;
+    };
+
+    return this.users.filter(filter);
   }
 }
 

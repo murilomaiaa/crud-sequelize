@@ -4,11 +4,11 @@ Host: localhost:3333
 Content-Length: 180
 
 {
-  "email": "email@email.com",
+  "email": "teste2@teste.com",
   "password": "123",
   "name": "Murilo Maia",
   "birthday": "2000-01-01T00:00:00.064Z",
-  "city": "Ipatinga",
-  "state": "MG",
-  "image": "string"
+  "city": "city",
+  "state": "state",
+  "image": "image.com"
 }
