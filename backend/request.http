@@ -1,0 +1,14 @@
+POST /users HTTP/1.1
+Content-Type: application/json
+Host: localhost:3333
+Content-Length: 180
+
+{
+  "email": "email@email.com",
+  "password": "123",
+  "name": "Murilo Maia",
+  "birthday": "2000-01-01T00:00:00.064Z",
+  "city": "Ipatinga",
+  "state": "MG",
+  "image": "string"
+}
