@@ -8,4 +8,5 @@ export default interface IUsersRepository {
   findAll: () => Promise<User[]>;
   findById: (id: number) => Promise<User | undefined>;
   filter: (data: RepositoryFilterUserDTO) => Promise<User[]>;
+  save: (user: User) => Promise<void>;
 }

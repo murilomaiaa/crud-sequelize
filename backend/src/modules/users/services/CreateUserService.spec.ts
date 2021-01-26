@@ -8,7 +8,7 @@ const data = {
   email: 'mu@rilo.com',
   name: 'Murilo',
   password: '123456',
-  birthday: new Date('2000-01-01'),
+  birthday: '2000-01-01',
   city: 'São Paulo',
   state: 'SP',
   image: 'image.com',

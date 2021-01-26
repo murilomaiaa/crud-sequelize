@@ -8,5 +8,6 @@ const filteredUsersController = new FilteredUsersController();
 
 usersRouter.post('/', usersController.create);
 usersRouter.get('/', filteredUsersController.find);
+usersRouter.put('/', usersController.update);
 
 export default usersRouter;
