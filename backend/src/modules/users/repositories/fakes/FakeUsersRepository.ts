@@ -20,6 +20,7 @@ class UsersRepository implements IUsersRepository {
     Object.assign(user, { id: this.nextId }, userData);
 
     this.users.push(user);
+    this.nextId += 1;
 
     return user;
   }
@@ -57,6 +58,12 @@ class UsersRepository implements IUsersRepository {
     const findIndex = this.users.findIndex(findUser => findUser.id === user.id);
 
     this.users[findIndex] = user;
+  }
+
+  public async delete({ id }: User): Promise<void> {
+    const index = this.users.findIndex(user => user.id === id);
+
+    this.users.splice(index, 1);
   }
 }
 

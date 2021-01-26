@@ -9,4 +9,5 @@ export default interface IUsersRepository {
   findById: (id: number) => Promise<User | undefined>;
   filter: (data: RepositoryFilterUserDTO) => Promise<User[]>;
   save: (user: User) => Promise<void>;
+  delete: (user: User) => Promise<void>;
 }

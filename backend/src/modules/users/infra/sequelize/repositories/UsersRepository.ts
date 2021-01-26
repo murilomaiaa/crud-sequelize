@@ -49,4 +49,8 @@ export default class UsersRepository implements IUsersRepository {
   async save(user: User): Promise<void> {
     await user.save();
   }
+
+  async delete(user: User): Promise<void> {
+    await user.destroy();
+  }
 }

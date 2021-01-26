@@ -1,4 +1,5 @@
 import CreateUserService from '@modules/users/services/CreateUserService';
+import DeleteUserService from '@modules/users/services/DeleteUserService';
 import UpdateUserService from '@modules/users/services/UpdateUserService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
@@ -27,6 +28,16 @@ export default class UsersController {
     const updateUser = container.resolve(UpdateUserService);
 
     await updateUser.execute({ id, name, email, birthday, city, state, image });
+
+    return response.status(204).json();
+  }
+
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+
+    const deleteUser = container.resolve(DeleteUserService);
+
+    await deleteUser.execute(Number(id));
 
     return response.status(204).json();
   }
