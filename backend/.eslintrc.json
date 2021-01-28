@@ -32,7 +32,8 @@
     ],
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
-    "no-useless-constructor": "off"
+    "no-useless-constructor": "off",
+    "no-underscore-dangle": "off"
   },
   "settings": {
     "import/resolver": {

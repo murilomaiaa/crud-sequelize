@@ -4,6 +4,14 @@ import { container } from 'tsyringe';
 
 import AuthenticateUserService from '@modules/users/services/AuthenticateUserService';
 
+type Pass = {
+  password?: string | undefined;
+};
+
+type User = Pass & {
+  [key: string]: string;
+};
+
 export default class SessionsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { email, password } = request.body;
@@ -12,12 +20,12 @@ export default class SessionsController {
 
     const { user, token } = await authenticateUser.execute({ email, password });
 
+    const _user = user.toJSON() as User;
+
+    delete _user.password;
+
     return response.json({
-      user: () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { password: _, ...rest } = user;
-        return { ...rest };
-      },
+      user: _user,
       token,
     });
   }

@@ -13,13 +13,13 @@ const filteredUsersController = new FilteredUsersController();
 const usersAvatarController = new UserAvatarController();
 const upload = multer(uploadConfig);
 
-usersRouter.use(ensureAuthenticated);
 usersRouter.post('/', usersController.create);
-usersRouter.get('/', filteredUsersController.find);
-usersRouter.put('/', usersController.update);
-usersRouter.delete('/:id', usersController.delete);
+usersRouter.get('/', ensureAuthenticated, filteredUsersController.find);
+usersRouter.put('/', ensureAuthenticated, usersController.update);
+usersRouter.delete('/:id', ensureAuthenticated, usersController.delete);
 usersRouter.patch(
   '/avatar',
+  ensureAuthenticated,
   upload.single('avatar'),
   usersAvatarController.update,
 );
