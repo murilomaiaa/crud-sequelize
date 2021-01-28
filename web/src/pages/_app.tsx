@@ -1,8 +1,16 @@
-import { AppProps } from 'next/app'
+import { ChakraProvider } from '@chakra-ui/react'
+import { AuthProvider } from '../hooks/auth'
+import { UsersProvider } from '../hooks/users'
 
 const MyApp = ({ Component, pageProps }) => {
   return (
-    <Component {...pageProps} />
+    <ChakraProvider>
+      <AuthProvider>
+        <UsersProvider>
+          <Component {...pageProps} />
+        </UsersProvider>
+      </AuthProvider>
+    </ChakraProvider>
   )
 }
 

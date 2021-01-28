@@ -9,6 +9,7 @@ export default class UsersRepository implements IUsersRepository {
     const user = await User.create({
       ...rest,
       birthday: parseISO(birthday),
+      image: '',
     });
     return user;
   }

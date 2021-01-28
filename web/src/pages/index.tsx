@@ -1,15 +1,12 @@
-import { useState } from 'react'
-import { Title } from '../styles/pages/Home'
+import { NextPage } from 'next'
 
-const Home: React.FC = () => {
-  const [counter, setCounter] = useState(0)
-  return (
-    <div>
-      <Title>Hello World</Title>
-      <p>{counter}</p>
-      <button onClick={() => setCounter(counter + 1)}>Increment</button>
-    </div>
-  )
+const Index: NextPage = () => <></>
+
+Index.getInitialProps = async ({ res }) => {
+  if (res) {
+    res.writeHead(302, { Location: '/login' })
+    res.end()
+  }
 }
 
-export default Home
+export default Index

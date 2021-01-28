@@ -23,11 +23,11 @@ export default class UsersController {
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
-    const { id, name, email, birthday, city, state, image } = request.body;
+    const { id, name, email, birthday, city, state } = request.body;
 
     const updateUser = container.resolve(UpdateUserService);
 
-    await updateUser.execute({ id, name, email, birthday, city, state, image });
+    await updateUser.execute({ id, name, email, birthday, city, state });
 
     return response.status(204).json();
   }
