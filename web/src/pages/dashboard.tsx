@@ -1,4 +1,4 @@
-import { Container, Table, Thead, Tr, Th, Tbody, Img, Heading } from "@chakra-ui/react"
+import { Container, Table, Thead, Tr, Th, Tbody, Img, Heading, Button, useDisclosure } from "@chakra-ui/react"
 import { format } from "date-fns"
 import { GetServerSideProps } from "next"
 import { useCallback, useEffect, useState } from "react"
@@ -10,6 +10,13 @@ import dynamic from 'next/dynamic'
 import { useUsers } from "../hooks/users"
 const UserModal = dynamic(
   () => import('../components/UserModal'),
+  {
+    ssr: false
+  }
+)
+
+const Drawer = dynamic(
+  () => import('../components/Drawer'),
   {
     ssr: false
   }
@@ -30,9 +37,11 @@ type Props = {
 }
 
 const Dashboard = ({ users: usersProp }: Props) => {
+  const { isOpen: isDrawerOpen, onOpen: onDrawerOpen, onClose: onDrawerClose } = useDisclosure()
   const [selectedUser, setSelectedUser] = useState<User>({} as User)
   const [isOpen, setIsOpen] = useState(false)
   const [modalIsRendered, setModalIsRendered] = useState(false)
+  const [drawerIsRendered, setDrawerIsRendered] = useState(false)
 
   const { setUsers, users } = useUsers()
 
@@ -50,11 +59,25 @@ const Dashboard = ({ users: usersProp }: Props) => {
     setIsOpen(true)
   }, [])
 
+  const handleFilterUser = useCallback(() => {
+    setDrawerIsRendered(true)
+
+    onDrawerOpen()
+  }, [])
+
   return (
     <>
       <Header />
       <Container as="main" maxW="1280px">
         <Heading size="lg" margin=" 24px 5px">Usuários</Heading>
+        <Button
+          onClick={handleFilterUser}
+          type="button"
+          variant="solid"
+          colorScheme="blue"
+        >
+          Filtrar
+        </Button>
         <Table colorScheme="blue" size="md">
           <Thead>
             <Tr>
@@ -93,7 +116,13 @@ const Dashboard = ({ users: usersProp }: Props) => {
         </Table>
       </Container>
       {modalIsRendered && (
-        <UserModal isOpen={isOpen} onClose={onClose} selectedUser={selectedUser} />
+        <UserModal isOpen={isOpen} onClose={onDrawerClose} selectedUser={selectedUser} />
+      )}
+      {drawerIsRendered && (
+        <Drawer
+          isOpen={isDrawerOpen}
+          onClose={onDrawerClose}
+        />
       )}
     </>
   )

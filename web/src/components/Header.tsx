@@ -19,17 +19,6 @@ export function Header(props: FlexProps) {
       {...props}
     >
       <Flex>
-        <Img
-          // as={Image}
-          src={user?.image || '/default-user.png'}
-          // src={logo}
-          alt={user?.name}
-          width={50}
-          height={50}
-          layout="responsive"
-          borderRadius="50%"
-          mr={2}
-        />
         <Box display="flex" flexDir="column">
           <Text fontSize="sm">Olá,</Text>
           <Text fontWeight="500">{user?.name}</Text>

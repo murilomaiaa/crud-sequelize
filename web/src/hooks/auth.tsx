@@ -66,8 +66,6 @@ export const AuthProvider: React.FC = ({ children }) => {
       sameSite: true
     });
 
-    api.defaults.headers.authorization = `Bearer ${token}`;
-
     setData({ token, user });
   }, []);
 
