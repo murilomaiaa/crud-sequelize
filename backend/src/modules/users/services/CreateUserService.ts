@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
-
+import path from 'path';
+import upload from '@config/upload';
 import User from '../infra/sequelize/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
@@ -34,6 +35,7 @@ class CreateUserService {
     const user = await this.usersRepository.create({
       email,
       password: hashedPassword,
+      image: path.resolve(upload.uploadsFolder, 'default-image-profile.png'),
       ...rest,
     });
 

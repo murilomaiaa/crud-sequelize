@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import AppError from '@shared/errors/AppError';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import AuthenticateUserService from './AuthenticateUserService';
@@ -25,7 +26,6 @@ describe('AuthenticateUsers', () => {
       birthday: '',
       city: 'city',
       state: 'state',
-      image: 'image.com',
     });
 
     const response = await authenticateUser.execute({
@@ -74,7 +74,6 @@ describe('AuthenticateUsers', () => {
       birthday: '',
       city: 'city',
       state: 'state',
-      image: 'image.com',
     });
 
     expect(

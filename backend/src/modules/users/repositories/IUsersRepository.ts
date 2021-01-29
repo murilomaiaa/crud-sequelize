@@ -1,9 +1,9 @@
-import CreateUserDTO from '../dtos/CreateUserDTO';
+import RepositoryCreateUserDTO from '../dtos/RepositoryCreateUserDTO';
 import RepositoryFilterUserDTO from '../dtos/RepositoryFilterUserDTO';
 import User from '../infra/sequelize/entities/User';
 
 export default interface IUsersRepository {
-  create: (user: CreateUserDTO) => Promise<User>;
+  create: (user: RepositoryCreateUserDTO) => Promise<User>;
   findByEmail: (email: string) => Promise<User | undefined>;
   findAll: () => Promise<User[]>;
   findById: (id: number) => Promise<User | undefined>;

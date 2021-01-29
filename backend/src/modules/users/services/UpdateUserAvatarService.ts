@@ -5,10 +5,10 @@ import IStorageProvider from '@shared/container/providers/StorageProvider/models
 import IUsersRepository from '../repositories/IUsersRepository';
 import User from '../infra/sequelize/entities/User';
 
-interface IRequest {
+type Request = {
   userId: number;
   avatarFileName: string;
-}
+};
 
 @injectable()
 class UpdateUserAvatarService {
@@ -21,7 +21,7 @@ class UpdateUserAvatarService {
     //
   }
 
-  public async execute({ userId, avatarFileName }: IRequest): Promise<User> {
+  public async execute({ userId, avatarFileName }: Request): Promise<User> {
     const user = await this.usersRepository.findById(userId);
 
     if (!user) {
@@ -31,7 +31,6 @@ class UpdateUserAvatarService {
       );
     }
 
-    console.log({ image: user.image });
     if (user.image) {
       await this.storageProvider.deleteFile(user.image);
     }

@@ -9,11 +9,13 @@ import AppError from '@shared/errors/AppError';
 import router from '@shared/infra/http/routes';
 
 import '@shared/container';
+import upload from '@config/upload';
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/files', express.static(upload.uploadsFolder));
 app.use('/', router);
 
 app.use((err: Error, _: Request, response: Response, __: NextFunction) => {
