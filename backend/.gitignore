@@ -3,4 +3,4 @@ dist
 coverage
 
 tmp/*
-!tmp/.gitkeep
+!tmp/default-image-profile.png
