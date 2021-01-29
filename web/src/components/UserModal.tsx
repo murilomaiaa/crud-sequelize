@@ -1,7 +1,7 @@
-import { AlertDialogProps, AlertDialog, AlertDialogOverlay, AlertDialogHeader, AlertDialogBody, AlertDialogFooter, Button, AlertDialogContent, Grid, Flex, Text, Img, Box, Tabs, TabList, TabPanels, TabPanel, Tab, CloseButton, useToast } from "@chakra-ui/react";
+import { AlertDialogProps, AlertDialog, AlertDialogOverlay, AlertDialogHeader, AlertDialogBody, Button, AlertDialogContent, Input as CInput, Flex, Text, Img, Box, Tabs, TabList, TabPanels, TabPanel, Tab, CloseButton, useToast, Icon } from "@chakra-ui/react";
 import { Form } from "@unform/web";
 import { differenceInYears, format } from "date-fns";
-import { useCallback, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Input } from "./Input";
 import * as Yup from 'yup'
 import { FormHandles } from "@unform/core";
@@ -10,6 +10,7 @@ import getValidationErrors from "../utils/getValidationErrors";
 import { useRouter } from "next/router";
 import { useAuth } from '../hooks/auth'
 import { useUsers } from "../hooks/users";
+import { FiCamera } from 'react-icons/fi'
 
 type User = {
   id: number
@@ -35,12 +36,17 @@ type FormData = {
 
 export default function UserModal({ isOpen, onClose, selectedUser, ...rest }: Props) {
   const [isLoading, setIsLoading] = useState(false)
+  const [userImage, setUserImage] = useState('')
   const cancelRef = useRef()
   const formRef = useRef<FormHandles>()
   const toast = useToast()
   const router = useRouter()
-  const { token, user, signOut } = useAuth()
+  const { token, user, signOut, updateUser } = useAuth()
   const { users, setUsers } = useUsers()
+
+  useEffect(() => {
+    setUserImage(selectedUser.image)
+  }, [selectedUser.image])
 
   const handleUpdateUser = useCallback(async (data: FormData) => {
     try {
@@ -92,11 +98,21 @@ export default function UserModal({ isOpen, onClose, selectedUser, ...rest }: Pr
         state,
       })
 
+      if (selectedUser.id === user.id) {
+        updateUser({
+          ...selectedUser,
+          name,
+          email,
+          birthday,
+          city,
+          state,
+        });
+      }
+
       setUsers([...users])
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err)
-        console.log({ errors })
         formRef.current?.setErrors(errors)
       } else if (err.isAxiosError) {
         const e = err.toJson ? err.toJson() : { err }
@@ -116,7 +132,49 @@ export default function UserModal({ isOpen, onClose, selectedUser, ...rest }: Pr
         })
       }
     }
-  }, [formRef, token])
+  }, [formRef, token, updateUser, selectedUser])
+
+  const handleAvatarChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files) {
+        const data = new FormData();
+
+        data.append(`avatar`, e.target.files[0]);
+
+        const { id } = selectedUser
+
+        api.patch('/users/' + id + '/avatar', data, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }).then(response => {
+
+          toast({
+            status: 'success',
+            title: 'Avatar atualizado!',
+            isClosable: true
+          });
+
+          selectedUser.image = response.data.image
+
+          const findUserIndex = users.findIndex(u => u.id === selectedUser.id)
+          users.splice(findUserIndex, 1, {
+            ...selectedUser,
+            image: response.data.image
+          })
+
+          if (selectedUser.id === user.id) {
+            updateUser({
+              ...selectedUser,
+              image: response.data.image
+            });
+          }
+          setUsers([...users])
+        });
+      }
+    },
+    [toast, selectedUser],
+  );
 
   const handleDeleteUser = useCallback(async (id: number) => {
     try {
@@ -146,7 +204,7 @@ export default function UserModal({ isOpen, onClose, selectedUser, ...rest }: Pr
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }, [token, selectedUser])
 
   return (
     <AlertDialog
@@ -170,13 +228,42 @@ export default function UserModal({ isOpen, onClose, selectedUser, ...rest }: Pr
               <TabPanels>
                 <TabPanel>
                   <Flex justifyContent="center">
-                    <Img
-                      src={selectedUser.image || '/default-user.png'}
-                      alt={selectedUser.name}
-                      h={50}
-                      w={50}
-                      borderRadius="50%"
-                    />
+                    <Box mb={8} position="relative">
+                      <Img
+                        src={userImage}
+                        alt={selectedUser.name}
+                        h="176px"
+                        w="176px"
+                        borderRadius="50%"
+                      />
+                      <Box
+                        as="label"
+                        htmlFor="avatar"
+                        position="absolute"
+                        width="48px"
+                        height="48px"
+                        background="blue.400"
+                        borderRadius="50%"
+                        right={0}
+                        bottom={0}
+                        border={0}
+                        cursor="pointer"
+                        transition="background-color 0.2s"
+                        placeItems="center"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                      >
+                        <Icon as={FiCamera} alignSelf="center" />
+                        <CInput
+                          type="file"
+                          name="avatar"
+                          id="avatar"
+                          onChange={handleAvatarChange}
+                          display="none"
+                        />
+                      </Box>
+                    </Box>
                   </Flex>
                   <Flex lineHeight="26px">
                     <Flex flexDirection="column">

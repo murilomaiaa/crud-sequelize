@@ -18,7 +18,7 @@ usersRouter.get('/', ensureAuthenticated, filteredUsersController.find);
 usersRouter.put('/', ensureAuthenticated, usersController.update);
 usersRouter.delete('/:id', ensureAuthenticated, usersController.delete);
 usersRouter.patch(
-  '/avatar',
+  '/:id/avatar',
   ensureAuthenticated,
   upload.single('avatar'),
   usersAvatarController.update,

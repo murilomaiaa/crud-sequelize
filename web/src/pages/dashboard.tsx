@@ -75,7 +75,7 @@ const Dashboard = ({ users: usersProp }: Props) => {
               >
                 <Th>
                   <Img
-                    src={user.image || '/default-user.png'}
+                    src={`${user.image}`}
                     alt={user.name}
                     h={50}
                     w={50}

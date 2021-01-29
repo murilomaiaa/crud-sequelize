@@ -35,7 +35,7 @@ class CreateUserService {
     const user = await this.usersRepository.create({
       email,
       password: hashedPassword,
-      image: path.resolve(upload.uploadsFolder, 'default-image-profile.png'),
+      image: `${process.env.API_URL}/files/default-image-profile.png`,
       ...rest,
     });
 
