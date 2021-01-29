@@ -1,0 +1,8 @@
+POST /sessions HTTP/1.1
+Content-Type: application/json
+Host: localhost:3333
+
+{
+  "email": "email@email.com",
+  "password": "123456"
+}
