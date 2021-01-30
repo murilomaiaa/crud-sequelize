@@ -1,13 +1,14 @@
 # Back end
 Go to the back end directory
-~~~cd backend~~~
+
+`cd backend`
 
 Enter your configs in .env (A default config is already defined)
 Run:
-  - ~~~yarn~~~ to install the dependencies
-  - ~~~yarn sequelize db:create~~~ to create the database
-  - ~~~yarn sequelize db:migrate~~~ to run the migrations
-  - ~~~yarn dev~~~ to start the development server
+  - `yarn` to install the dependencies
+  - `yarn sequelize db:create` to create the database
+  - `yarn sequelize db:migrate` to run the migrations
+  - `yarn dev` to start the development server
 
 ## Rotas
 To test a route go to backend/requests
@@ -31,11 +32,11 @@ The next routes need auth
 
 # Front end
   Go to the front end directory
-~~~cd web~~~
+`cd web`
 
 Run:
-  - ~~~yarn~~~ to install the dependencies
-  - ~~~yarn dec~~~ to start the develop server
+  - `yarn` to install the dependencies
+  - `yarn dev` to start the develop server
 
 To test the front end
 open http://localhost:3000/
