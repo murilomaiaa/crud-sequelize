@@ -35,7 +35,7 @@ The next routes need auth
 
 Run:
   - ~~~yarn~~~ to install the dependencies
-  - ~~~yarn dec~~~ to start the develop server
+  - ~~~yarn dev~~~ to start the develop server
 
 To test the front end
 open http://localhost:3000/
