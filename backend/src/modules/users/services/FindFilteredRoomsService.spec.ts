@@ -8,10 +8,9 @@ let findFilteredRooms: FindFilteredRoomsService;
 const data = {
   name: 'Fulano',
   email: 'fulano@mail.com',
-  birthday: new Date(),
+  birthday: new Date().toISOString(),
   city: 'city',
   state: 'state',
-  image: 'image.com',
   password: '123',
 };
 

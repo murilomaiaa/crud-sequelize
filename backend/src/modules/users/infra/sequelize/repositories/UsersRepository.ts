@@ -20,7 +20,7 @@ export default class UsersRepository implements IUsersRepository {
   }
 
   async findAll(): Promise<User[]> {
-    return User.findAll();
+    return User.findAll()
   }
 
   async findById(id: number): Promise<User | undefined> {
